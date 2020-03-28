@@ -1,0 +1,44 @@
+grammar Regex;
+
+@header {
+import utils.Tree;
+}
+
+re returns [Tree tree]
+    : cnct re_ { tree = new Tree("RE", cnct, re_); }
+    | re_ { tree = new Tree("RE", re_); }
+;
+
+re_ returns [Tree tree]
+    : EPS { tree = new Tree("RE'", new Tree("EPS")); }
+    | VBAR re { tree = new Tree("RE'", new Tree("|"), re); }
+;
+
+cnct returns [Tree tree]
+    : part cnct { tree = new Tree("CNCT", part, cnct); }
+    | EPS { tree = new Tree("CNCT", new Tree("EPS")); }
+;
+
+part returns [Tree tree]
+    : group kln { tree = new Tree("PART", group, kln); }
+;
+
+group returns [Tree tree]
+    : LPAREN re RPAREN { tree = new Tree("GROUP", new Tree("("), re, new Tree(")")); }
+    | ALPHA { tree = new Tree("GROUP", new Tree(lex.getCurString())); }
+;
+
+kln returns [Tree tree]
+    : STAR kln { tree = new Tree("KLN", new Tree("*")); }
+    | PLUS kln { tree = new Tree("KLN", new Tree("+")); }
+    | QMARK kln { tree = new Tree("KLN", new Tree("?")); }
+    | EPS { tree = new Tree("KLN", new Tree("EPS")); }
+;
+
+VBAR: '|' ;
+STAR: '*' ;
+PLUS: '+' ;
+QMARK: '?' ;
+ALPHA : /[a-z]/;
+LPAREN : '(';
+RPAREN : ')';

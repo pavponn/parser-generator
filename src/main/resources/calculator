@@ -1,0 +1,32 @@
+grammar Calculator;
+
+expr returns [int val]
+    : term expr_[ term ] {val = expr_;}
+;
+
+expr_ [int acc] returns [int val]
+    : ADD term { int res = acc + term; } expr_[res] { val = expr_; }
+    | MINUS term { int res = acc - term; } expr_[res] { val = expr_; }
+    | EPS { val = acc; }
+;
+
+term returns [int val]
+    : factor term_[ factor ] { val = term_; }
+;
+
+term_[int acc] returns [int val]
+    : MUL factor {int res = acc * factor; } term_[res] { val = term_; }
+    | EPS { val = acc; }
+;
+
+factor returns [int val]
+    : NUM { val = Integer.parseInt(lex.getCurString()); }
+    | LPAREN expr RPAREN { val = expr; }
+;
+
+LPAREN: '(' ;
+RPAREN: ')' ;
+ADD : '+';
+MUL : '*';
+MINUS: '-';
+NUM : /[1-9][0-9]*|0/ ;

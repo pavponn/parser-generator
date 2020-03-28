@@ -1,0 +1,66 @@
+grammar Pascal;
+
+start returns [String v]
+    : VAR arrNames COLON ARRAY OPENSBRACKET rangeList CLOSESBRACKET OF type COLON
+       { v = "|_var\n" + arrNames + "|_:\n|_array\n|_[\n" + rangeList + "|_]\n|_of\n|_" + type + "\n|_;";}
+;
+
+rangeList returns [String v]
+    : range rangeList3 {v = range + rangeList3;}
+;
+
+rangeList3 returns [String v]
+    : rangeList2 {v = rangeList2;}
+    | EPS {v = "";}
+;
+
+rangeList2 returns [String v]
+    : COMMA rangeList rangeList4 {v = ", " + rangeList + rangeList4;}
+;
+
+rangeList4 returns [String v]
+    : rangeList2 {v = rangeList2;}
+    | EPS {v = "";}
+;
+
+arrNames returns [String v]
+    : ID arrNames3 {v = ID + arrNames3;}
+;
+
+
+arrNames3 returns [String v]
+    : arrNames2 {v = arrNames2;}
+    | EPS {v = "";}
+;
+
+arrNames2 returns [String v]
+    : COMMA arrNames arrNames4 {v = ", " + arrNames + arrNames4;}
+;
+
+arrNames4 returns [String v]
+    : arrNames2 {v = arrNames2;}
+    | EPS {v = "";}
+;
+
+range returns [String v]
+    : NUMBER DOUBLEDOT NUMBER {v = NUMBER + ".." + NUMBER;}
+    | type {v = type;}
+;
+
+type returns [String v]
+    : ID {v = ID;}
+;
+
+VAR: 'var';
+ARRAY: 'array';
+OF: 'of';
+
+ID: /[a-zA-Z]([a-zA-Z0-9])*/;
+NUMBER: /([1-9][0-9]*)|(0)/;
+
+COLON: ':';
+OPENSBRACKET: '[';
+DOUBLEDOT: '..';
+COMMA: ',';
+CLOSESBRACKET: ']';
+SEMICOLON: ';';
