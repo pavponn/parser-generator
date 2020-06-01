@@ -24,7 +24,7 @@ rangeList4 returns [String v]
 ;
 
 arrNames returns [String v]
-    : ID arrNames3 {v = ID + arrNames3;}
+    : ID arrNames3 {v = lex.getCurString(); v += arrNames3;}
 ;
 
 
@@ -43,12 +43,12 @@ arrNames4 returns [String v]
 ;
 
 range returns [String v]
-    : NUMBER DOUBLEDOT NUMBER {v = NUMBER + ".." + NUMBER;}
+    : NUMBER DOUBLEDOT NUMBER {v = "NUMBER" + ".." + "NUMBER";}
     | type {v = type;}
 ;
 
 type returns [String v]
-    : ID {v = ID;}
+    : ID {v = lex.getCurString();}
 ;
 
 VAR: 'var';

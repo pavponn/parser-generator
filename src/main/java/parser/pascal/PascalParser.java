@@ -22,15 +22,15 @@ public class PascalParser {
 
         String v = null;
         switch (lex.getCurToken()) {
-            case COMMA: {
-                v = "";
-                break;
-            }
             case EPS: {
                 v = "";
                 break;
             }
             case COLON: {
+                v = "";
+                break;
+            }
+            case COMMA: {
                 v = "";
                 break;
             }
@@ -44,15 +44,15 @@ public class PascalParser {
 
         String v = null;
         switch (lex.getCurToken()) {
-            case COMMA: {
-                v = "";
-                break;
-            }
             case EPS: {
                 v = "";
                 break;
             }
             case COLON: {
+                v = "";
+                break;
+            }
+            case COMMA: {
                 v = "";
                 break;
             }
@@ -109,7 +109,7 @@ public class PascalParser {
 
         String v = null;
         switch (lex.getCurToken()) {
-            case CLOSESBRACKET: {
+            case EPS: {
                 v = "";
                 break;
             }
@@ -117,7 +117,7 @@ public class PascalParser {
                 v = "";
                 break;
             }
-            case EPS: {
+            case CLOSESBRACKET: {
                 v = "";
                 break;
             }
@@ -127,12 +127,11 @@ public class PascalParser {
         return v;
     }
 
-    private String
-            () throws ParseException {
+    private String rangeList3() throws ParseException {
 
         String v = null;
         switch (lex.getCurToken()) {
-            case CLOSESBRACKET: {
+            case EPS: {
                 v = "";
                 break;
             }
@@ -140,7 +139,7 @@ public class PascalParser {
                 v = "";
                 break;
             }
-            case EPS: {
+            case CLOSESBRACKET: {
                 v = "";
                 break;
             }
@@ -216,7 +215,7 @@ public class PascalParser {
                 lex.nextToken();
                 
                 lex.nextToken();
-                v = NUMBER + ".." + NUMBER;
+                v = "NUMBER" + ".." + "NUMBER";
                 lex.nextToken();
                 break;
             }
@@ -231,7 +230,7 @@ public class PascalParser {
         String v = null;
         switch (lex.getCurToken()) {
             case ID: {
-                v = ID;
+                v = lex.getCurString();
                 lex.nextToken();
                 break;
             }
@@ -249,7 +248,7 @@ public class PascalParser {
                 
                 lex.nextToken();
                 String arrNames3 = arrNames3();
-                v = ID + arrNames3;
+                v = lex.getCurString(); v += arrNames3;
                 break;
             }
             default:
