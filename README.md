@@ -1,5 +1,6 @@
 # Parser Generator
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pavponn/parser-generator/blob/master/LICENSE)
+![Java CI with Maven](https://github.com/pavponn/parser-generator/workflows/Java%20CI%20with%20Maven/badge.svg)
 
 ## Summary
 This program generates parser's sources from file with the LL(1) grammar for some language.
